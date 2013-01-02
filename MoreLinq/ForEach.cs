@@ -1,6 +1,6 @@
 #region License and Terms
 // MoreLINQ - Extensions to LINQ to Objects
-// Copyright (c) 2008-2011 Jonathan Skeet. All rights reserved.
+// Copyright (c) 2008 Jonathan Skeet. All rights reserved.
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,12 +15,12 @@
 // limitations under the License.
 #endregion
 
-using System;
-using System.Collections.Generic;
-
 namespace MoreLinq
 {
-    public static partial class MoreEnumerable
+    using System;
+    using System.Collections.Generic;
+
+    static partial class MoreEnumerable
     {
         /// <summary>
         /// Immediately executes the given action on each element in the source sequence.
@@ -31,9 +31,9 @@ namespace MoreLinq
 
         public static void ForEach<T>(this IEnumerable<T> source, Action<T> action)
         {
-            source.ThrowIfNull("source");
-            action.ThrowIfNull("action");
-            foreach (T element in source)
+            if (source == null) throw new ArgumentNullException("source");
+            if (action == null) throw new ArgumentNullException("action");
+            foreach (var element in source)
             {
                 action(element);
             }

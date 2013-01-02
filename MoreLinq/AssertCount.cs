@@ -1,6 +1,6 @@
 #region License and Terms
 // MoreLINQ - Extensions to LINQ to Objects
-// Copyright (c) 2008-2011 Jonathan Skeet. All rights reserved.
+// Copyright (c) 2008 Jonathan Skeet. All rights reserved.
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,13 +15,15 @@
 // limitations under the License.
 #endregion
 
-using System;
-using System.Collections.Generic;
-
 namespace MoreLinq
 {
-    public static partial class MoreEnumerable
+    using System;
+    using System.Collections.Generic;
+
+    static partial class MoreEnumerable
     {
+        #if MORELINQ
+
         private static readonly Func<int, int, Exception> defaultErrorSelector = OnAssertCountFailure;
 
         /// <summary>
@@ -42,8 +44,8 @@ namespace MoreLinq
         public static IEnumerable<TSource> AssertCount<TSource>(this IEnumerable<TSource> source, 
             int count)
         {
-            source.ThrowIfNull("source");
-            count.ThrowIfNegative("count");
+            if (source == null) throw new ArgumentNullException("source");
+            if (count < 0) throw new ArgumentOutOfRangeException("count");
 
             return AssertCountImpl(source, count, defaultErrorSelector);
         }
@@ -69,9 +71,9 @@ namespace MoreLinq
         public static IEnumerable<TSource> AssertCount<TSource>(this IEnumerable<TSource> source, 
             int count, Func<int, int, Exception> errorSelector)
         {
-            source.ThrowIfNull("source");
+            if (source == null) throw new ArgumentNullException("source");
             if (count < 0) throw new ArgumentException(null, "count");
-            errorSelector.ThrowIfNull("errorSelector");
+            if (errorSelector == null) throw new ArgumentNullException("errorSelector");
 
             return AssertCountImpl(source, count, errorSelector);
         }
@@ -83,6 +85,8 @@ namespace MoreLinq
                         : "Sequence contains too many elements when exactly {0} were expected.";
             return new SequenceException(string.Format(message, count.ToString("N0")));
         }
+
+        #endif
 
         private static IEnumerable<TSource> AssertCountImpl<TSource>(IEnumerable<TSource> source, 
             int count, Func<int, int, Exception> errorSelector)
@@ -102,7 +106,7 @@ namespace MoreLinq
             int count, Func<int, int, Exception> errorSelector)
         {
             var iterations = 0;
-            foreach (TSource element in source)
+            foreach (var element in source)
             {
                 iterations++;
                 if (iterations > count)

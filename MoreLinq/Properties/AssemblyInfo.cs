@@ -1,6 +1,6 @@
-﻿#region License and Terms
+#region License and Terms
 // MoreLINQ - Extensions to LINQ to Objects
-// Copyright (c) 2008-2011 Jonathan Skeet. All rights reserved.
+// Copyright (c) 2008 Jonathan Skeet. All rights reserved.
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -27,7 +27,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyDescription("Extensions to LINQ to Objects")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("MoreLINQ")]
-[assembly: AssemblyCopyright("Copyright (c) 2008")]
+[assembly: AssemblyCopyright("Copyright \u00a9 2008 Jonathan Skeet. All rights reserved.")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -39,8 +39,8 @@ using System.Runtime.InteropServices;
 // bld = months_since_2000 x 100 + day_of_month
 // rev = utc_hours_since_midnight + utc_minutes
 
-[assembly: AssemblyVersion("1.0.11729.0")]
-[assembly: AssemblyFileVersion("1.0.11729.0")]
+[assembly: AssemblyVersion("1.0.15416.0")]
+[assembly: AssemblyFileVersion("1.0.15416.959")]
 
 // Debug or release configuration?
 

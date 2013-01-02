@@ -1,6 +1,6 @@
 #region License and Terms
 // MoreLINQ - Extensions to LINQ to Objects
-// Copyright (c) 2008-2011 Jonathan Skeet. All rights reserved.
+// Copyright (c) 2008 Jonathan Skeet. All rights reserved.
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,13 +15,13 @@
 // limitations under the License.
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-
 namespace MoreLinq
 {
-    public static partial class MoreEnumerable
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+
+    static partial class MoreEnumerable
     {
         /// <summary>
         /// Returns the set of elements in the first sequence which aren't
@@ -73,9 +73,9 @@ namespace MoreLinq
             Func<TSource, TKey> keySelector,
             IEqualityComparer<TKey> keyComparer)
         {
-            first.ThrowIfNull("first");
-            second.ThrowIfNull("second");
-            keySelector.ThrowIfNull("keySelector");
+            if (first == null) throw new ArgumentNullException("first");
+            if (second == null) throw new ArgumentNullException("second");
+            if (keySelector == null) throw new ArgumentNullException("keySelector");
             return ExceptByImpl(first, second, keySelector, keyComparer);
         }
 
@@ -84,10 +84,10 @@ namespace MoreLinq
             Func<TSource, TKey> keySelector,
             IEqualityComparer<TKey> keyComparer)
         {
-            HashSet<TKey> keys = new HashSet<TKey>(second.Select(keySelector), keyComparer);
+            var keys = new HashSet<TKey>(second.Select(keySelector), keyComparer);
             foreach (var element in first)
             {
-                TKey key = keySelector(element);
+                var key = keySelector(element);
                 if (keys.Contains(key))
                 {
                     continue;

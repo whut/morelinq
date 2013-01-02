@@ -3,6 +3,8 @@ using System.Linq;
 
 namespace MoreLinq
 {
+    using System;
+
     public static partial class MoreEnumerable
     {
         /// <summary>
@@ -20,8 +22,8 @@ namespace MoreLinq
         /// <returns>A series of sequences representing each sliding window subsequence</returns>
         public static IEnumerable<IEnumerable<TSource>> Windowed<TSource>(this IEnumerable<TSource> source, int size)
         {
-            source.ThrowIfNull("source");
-            size.ThrowIfNonPositive("size");
+            if (source == null) throw new ArgumentNullException("source");
+            if (size <= 0) throw new ArgumentOutOfRangeException("size");
 
             return WindowedImpl(source, size);
         }

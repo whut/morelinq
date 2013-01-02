@@ -53,7 +53,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AcquireTest.cs" />
     <Compile Include="AssertUtil.cs" />
+    <Compile Include="IndexTest.cs" />
+    <Compile Include="KeyValuePair.cs" />
+    <Compile Include="SplitTest.cs" />
+    <Compile Include="GroupAdjacentTest.cs" />
+    <Compile Include="PairwiseTest.cs" />
     <Compile Include="SkipUntilTest.cs" />
     <Compile Include="CartesianTest.cs" />
     <Compile Include="Combinatorics.cs" />

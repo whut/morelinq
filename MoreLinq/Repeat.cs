@@ -13,9 +13,8 @@ namespace MoreLinq
         /// <returns>A sequence produced from the repetition of the original source sequence</returns>
         public static IEnumerable<T> Repeat<T>(this IEnumerable<T> sequence, int count)
         {
-            sequence.ThrowIfNull("sequence");
-            if (count < 0)
-                throw new ArgumentOutOfRangeException("count", count, "Repeat count must be greater than or equal to zero.");
+            if (sequence == null) throw new ArgumentNullException("sequence");
+            if (count < 0) throw new ArgumentOutOfRangeException("count", count, "Repeat count must be greater than or equal to zero.");
             return RepeatImpl(sequence, count);
         }
 

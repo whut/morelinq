@@ -48,8 +48,8 @@ namespace MoreLinq
         /// <returns>A merged, order-preserving sequence containing al of the elements of the original sequences</returns>
         public static IEnumerable<TSource> SortedMerge<TSource>(this IEnumerable<TSource> source, OrderByDirection direction, IComparer<TSource> comparer, params IEnumerable<TSource>[] otherSources)
         {
-            source.ThrowIfNull("source");
-            otherSources.ThrowIfNull("otherSources");
+            if (source == null) throw new ArgumentNullException("source");
+            if (otherSources == null) throw new ArgumentNullException("otherSources");
 
             if (otherSources.Length == 0)
                 return source; // optimization for when otherSequences is empty

@@ -190,7 +190,7 @@ namespace MoreLinq
         /// <returns>A sequence of lists representing permutations of the original sequence</returns>
         public static IEnumerable<IList<T>> Permutations<T>(this IEnumerable<T> sequence)
         {
-            sequence.ThrowIfNull("sequence");
+            if (sequence == null) throw new ArgumentNullException("sequence");
 
             return PermutationsImpl(sequence);
         }

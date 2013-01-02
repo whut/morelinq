@@ -38,13 +38,13 @@ namespace MoreLinq
         /// <returns>A sequence produced by projecting each element of the sequence with its lagged pairing</returns>
         public static IEnumerable<TResult> Lag<TSource, TResult>(this IEnumerable<TSource> source, int offset, TSource defaultLagValue, Func<TSource, TSource, TResult> resultSelector)
         {
-            source.ThrowIfNull("source");
-            resultSelector.ThrowIfNull("resultSelector");
+            if (source == null) throw new ArgumentNullException("source");
+            if (resultSelector == null) throw new ArgumentNullException("resultSelector");
             // NOTE: Theoretically, we could assume that negative (or zero-offset) lags could be
             //       re-written as: sequence.Lead( -lagBy, resultSelector ). However, I'm not sure
             //       that it's an intuitive - or even desirable - behavior. So it's being omitted.
-            offset.ThrowIfNonPositive("offset");
-            
+            if (offset <= 0) throw new ArgumentOutOfRangeException("offset");
+
             return LagImpl(source, offset, defaultLagValue, resultSelector);
         }
 

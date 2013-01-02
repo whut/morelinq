@@ -27,7 +27,7 @@ namespace MoreLinq
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="rand"/> is <see langword="null"/>.</exception>
         public static IEnumerable<int> Random(Random rand)
         {
-            rand.ThrowIfNull("rand");
+            if (rand == null) throw new ArgumentNullException("rand");
 
             return RandomImpl(rand, r => r.Next());
         }
@@ -39,8 +39,8 @@ namespace MoreLinq
         /// <returns>An infinite sequence of random integers</returns>
         public static IEnumerable<int> Random(int maxValue)
         {
-            maxValue.ThrowIfNegative("maxValue");
-            
+            if (maxValue < 0) throw new ArgumentOutOfRangeException("maxValue");
+
             return Random(new Random(), maxValue);
         }
 
@@ -54,8 +54,8 @@ namespace MoreLinq
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="rand"/> is <see langword="null"/>.</exception>
         public static IEnumerable<int> Random(Random rand, int maxValue)
         {
-            rand.ThrowIfNull("rand");
-            maxValue.ThrowIfNegative("maxValue");
+            if (rand == null) throw new ArgumentNullException("rand");
+            if (maxValue < 0) throw new ArgumentOutOfRangeException("maxValue");
 
             return RandomImpl(rand, r => r.Next(maxValue));
         }
@@ -83,7 +83,7 @@ namespace MoreLinq
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="rand"/> is <see langword="null"/>.</exception>
         public static IEnumerable<int> Random(Random rand, int minValue, int maxValue)
         {
-            rand.ThrowIfNull("rand");
+            if (rand == null) throw new ArgumentNullException("rand");
             if (minValue > maxValue)
                 throw new ArgumentOutOfRangeException( "minValue", 
                     string.Format("The argument minValue ({0}) is greater than maxValue ({1})", minValue, maxValue) );
@@ -109,7 +109,7 @@ namespace MoreLinq
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="rand"/> is <see langword="null"/>.</exception>
         public static IEnumerable<double> RandomDouble(Random rand)
         {
-            rand.ThrowIfNull("rand");
+            if (rand == null) throw new ArgumentNullException("rand");
 
             return RandomImpl(rand, r => r.NextDouble());
         }

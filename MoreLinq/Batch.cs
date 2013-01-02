@@ -1,6 +1,6 @@
- #region License and Terms
+#region License and Terms
 // MoreLINQ - Extensions to LINQ to Objects
-// Copyright (c) 2008-2011 Jonathan Skeet. All rights reserved.
+// Copyright (c) 2008 Jonathan Skeet. All rights reserved.
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,14 +15,14 @@
 // limitations under the License.
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-
 namespace MoreLinq
 {
-    public static partial class MoreEnumerable
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics;
+    using System.Linq;
+
+    static partial class MoreEnumerable
     {
         /// <summary>
         /// Batches the source sequence into sized buckets.
@@ -52,9 +52,9 @@ namespace MoreLinq
         public static IEnumerable<TResult> Batch<TSource, TResult>(this IEnumerable<TSource> source, int size,
             Func<IEnumerable<TSource>, TResult> resultSelector)
         {
-            source.ThrowIfNull("source");
-            size.ThrowIfNonPositive("size");
-            resultSelector.ThrowIfNull("resultSelector");
+            if (source == null) throw new ArgumentNullException("source");
+            if (size <= 0) throw new ArgumentOutOfRangeException("size");
+            if (resultSelector == null) throw new ArgumentNullException("resultSelector");
             return BatchImpl(source, size, resultSelector);
         }
 

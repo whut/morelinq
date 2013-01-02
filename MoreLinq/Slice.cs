@@ -3,6 +3,8 @@ using System.Linq;
 
 namespace MoreLinq
 {
+    using System;
+
     public static partial class MoreEnumerable
     {
         /// <summary>
@@ -22,9 +24,9 @@ namespace MoreLinq
         /// <returns>A new sequence containing any elements sliced out from the source sequence</returns>
         public static IEnumerable<T> Slice<T>(this IEnumerable<T> sequence, int startIndex, int count)
         {
-            sequence.ThrowIfNull("sequence");
-            startIndex.ThrowIfNegative("startIndex");
-            count.ThrowIfNegative("count");
+            if (sequence == null) throw new ArgumentNullException("sequence");
+            if (startIndex < 0) throw new ArgumentOutOfRangeException("startIndex");
+            if (count < 0) throw new ArgumentOutOfRangeException("count");
 
             // optimization for anything implementing IList<T>
             var asList = sequence as IList<T>;

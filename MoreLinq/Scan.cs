@@ -1,6 +1,6 @@
 #region License and Terms
 // MoreLINQ - Extensions to LINQ to Objects
-// Copyright (c) 2008-2011 Jonathan Skeet. All rights reserved.
+// Copyright (c) 2008 Jonathan Skeet. All rights reserved.
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,12 +15,12 @@
 // limitations under the License.
 #endregion
 
-using System;
-using System.Collections.Generic;
-
 namespace MoreLinq
 {
-    public static partial class MoreEnumerable
+    using System;
+    using System.Collections.Generic;
+
+    static partial class MoreEnumerable
     {
         /// <summary>
         /// Peforms a scan (inclusive prefix sum) on a sequence of elements.
@@ -54,8 +54,8 @@ namespace MoreLinq
         public static IEnumerable<TSource> Scan<TSource>(this IEnumerable<TSource> source,
             Func<TSource, TSource, TSource> transformation)
         {
-            source.ThrowIfNull("source");
-            transformation.ThrowIfNull("transformation");
+            if (source == null) throw new ArgumentNullException("source");
+            if (transformation == null) throw new ArgumentNullException("transformation");
             return ScanImpl(source, transformation);
         }
 
@@ -65,7 +65,7 @@ namespace MoreLinq
             {
                 if (!i.MoveNext())
                 {
-                    throw new InvalidOperationException("source must not be empty");
+                    throw new InvalidOperationException("Sequence contains no elements");
                 }
                 var aggregator = i.Current;
 

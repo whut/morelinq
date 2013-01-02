@@ -39,9 +39,9 @@ namespace MoreLinq
         /// <returns>A sequence produced by projecting each element of the sequence with its lead pairing</returns>
         public static IEnumerable<TResult> Lead<TSource, TResult>(this IEnumerable<TSource> source, int offset, TSource defaultLeadValue, Func<TSource, TSource, TResult> resultSelector)
         {
-            source.ThrowIfNull("source");
-            resultSelector.ThrowIfNull("resultSelector");
-            offset.ThrowIfNonPositive("offset");
+            if (source == null) throw new ArgumentNullException("source");
+            if (resultSelector == null) throw new ArgumentNullException("resultSelector");
+            if (offset <= 0) throw new ArgumentOutOfRangeException("offset");
 
             return LeadImpl(source, offset, defaultLeadValue, resultSelector);
         }

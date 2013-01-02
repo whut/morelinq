@@ -1,6 +1,6 @@
 #region License and Terms
 // MoreLINQ - Extensions to LINQ to Objects
-// Copyright (c) 2008-2011 Jonathan Skeet. All rights reserved.
+// Copyright (c) 2008 Jonathan Skeet. All rights reserved.
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,13 +15,13 @@
 // limitations under the License.
 #endregion
 
-using System;
-using System.Collections.Generic;
-
 namespace MoreLinq
 {
+    using System;
+    using System.Collections.Generic;
+
     // TODO: Tests! (The code is simple enough I trust it not to fail, mind you...)
-    public static partial class MoreEnumerable
+    static partial class MoreEnumerable
     {
         /// <summary>
         /// Returns a <see cref="HashSet{T}"/> of the source items using the default equality
@@ -35,8 +35,7 @@ namespace MoreLinq
         /// <exception cref="ArgumentNullException"><paramref name="source"/> is null</exception>
         public static HashSet<TSource> ToHashSet<TSource>(this IEnumerable<TSource> source) 
         {
-            source.ThrowIfNull("source");
-            return new HashSet<TSource>(source);
+            return source.ToHashSet(null);
         }
 
         /// <summary>
@@ -50,9 +49,9 @@ namespace MoreLinq
         /// <param name="comparer">Equality comparer to use; a value of null will cause the type's default equality comparer to be used</param>
         /// <returns>A hash set of the items in the sequence, using the default equality comparer.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="source"/> is null</exception>
-        public static IEnumerable<TSource> ToHashSet<TSource>(this IEnumerable<TSource> source, IEqualityComparer<TSource> comparer)
+        public static HashSet<TSource> ToHashSet<TSource>(this IEnumerable<TSource> source, IEqualityComparer<TSource> comparer)
         {
-            source.ThrowIfNull("source");
+            if (source == null) throw new ArgumentNullException("source");
             return new HashSet<TSource>(source, comparer);
         }
     }

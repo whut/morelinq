@@ -1,6 +1,6 @@
-﻿#region License and Terms
+#region License and Terms
 // MoreLINQ - Extensions to LINQ to Objects
-// Copyright (c) 2008-2011 Jonathan Skeet. All rights reserved.
+// Copyright (c) 2008 Jonathan Skeet. All rights reserved.
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -42,8 +42,8 @@ namespace MoreLinq.Test
         {
             // Working with a copy means we can look over it more than once.
             // We're safe to do that with the array anyway.
-            List<T> copy = actual.ToList();
-            bool result = copy.SequenceEqual(expected);
+            var copy = actual.ToList();
+            var result = copy.SequenceEqual(expected);
             // Looks nicer than Assert.IsTrue or Assert.That, unfortunately.
             if (!result)
             {
@@ -55,8 +55,8 @@ namespace MoreLinq.Test
 
         internal static string InsertBetween(this string delimiter, IEnumerable<string> items)
         {
-            StringBuilder builder = new StringBuilder();
-            foreach (string item in items)
+            var builder = new StringBuilder();
+            foreach (var item in items)
             {
                 if (builder.Length != 0)
                 {

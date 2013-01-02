@@ -9,7 +9,17 @@ Bin/**
 *.docstates
 obj/**
 _ReSharper.*
+*.DotSettings
 *.orig
+*.rej
 dist/**
 pkg/*/**
 *.nupkg
+docs/api/fti/*
+docs/api/*.aspx
+docs/api/*.php
+docs/api/Web.Config
+docs/api/*.xml
+docs/PublicApi/*.xml
+*.ncrunchsolution
+docs/api/LastBuild.log

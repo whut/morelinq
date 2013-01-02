@@ -2,6 +2,8 @@ using System.Collections.Generic;
 
 namespace MoreLinq
 {
+    using System;
+
     public static partial class MoreEnumerable
     {
         /// <summary>
@@ -14,9 +16,9 @@ namespace MoreLinq
         /// <returns>A sequence that excludes the specified portion of elements</returns>
         public static IEnumerable<T> Exclude<T>(this IEnumerable<T> sequence, int startIndex, int count)
         {
-            sequence.ThrowIfNull("sequence");
-            startIndex.ThrowIfNegative("startIndex");
-            count.ThrowIfNegative("count");
+            if (sequence == null) throw new ArgumentNullException("sequence");
+            if (startIndex < 0) throw new ArgumentOutOfRangeException("startIndex");
+            if (count < 0) throw new ArgumentOutOfRangeException("count");
 
             return ExcludeImpl(sequence, startIndex, count);
         }

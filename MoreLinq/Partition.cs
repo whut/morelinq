@@ -57,8 +57,8 @@ namespace MoreLinq
         /// </remarks>
         public static IEnumerable<IEnumerable<TSource>> Partition<TSource>(this IEnumerable<TSource> source, int size)
         {
-            source.ThrowIfNull("source");
-            size.ThrowIfNonPositive("size");
+            if (source == null) throw new ArgumentNullException("source");
+            if (size <= 0) throw new ArgumentOutOfRangeException("size");
 
             var splitInstructions = MoreEnumerable.GenerateByIndex(i => i % size == size - 1 ? PartitionInstruction.Yield : PartitionInstruction.Fill);
             return source.PartitionImpl(splitInstructions);
@@ -80,7 +80,7 @@ namespace MoreLinq
         public static IEnumerable<IEnumerable<TSource>> Partition<TSource>(this IEnumerable<TSource> source,
             IEnumerable<int> partitions)
         {
-            source.ThrowIfNull("source");
+            if (source == null) throw new ArgumentNullException("source");
 
             IEnumerable<PartitionInstruction> splitInstructions = Enumerable.Empty<PartitionInstruction>();
 

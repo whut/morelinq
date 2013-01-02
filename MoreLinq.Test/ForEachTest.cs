@@ -1,6 +1,6 @@
-﻿#region License and Terms
+#region License and Terms
 // MoreLINQ - Extensions to LINQ to Objects
-// Copyright (c) 2008-2011 Jonathan Skeet. All rights reserved.
+// Copyright (c) 2008 Jonathan Skeet. All rights reserved.
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -41,7 +41,7 @@ namespace MoreLinq.Test
         [Test]
         public void ForEachWithSequence()
         {
-            List<int> results = new List<int>();
+            var results = new List<int>();
             MoreEnumerable.ForEach(new[] { 1, 2, 3 }, results.Add);
             results.AssertSequenceEqual(1, 2, 3);
         }

@@ -1,6 +1,6 @@
 #region License and Terms
 // MoreLINQ - Extensions to LINQ to Objects
-// Copyright (c) 2008-2011 Jonathan Skeet. All rights reserved.
+// Copyright (c) 2008 Jonathan Skeet. All rights reserved.
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,13 +15,13 @@
 // limitations under the License.
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-
 namespace MoreLinq
 {
-    public static partial class MoreEnumerable
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics;
+
+    static partial class MoreEnumerable
     {
         /// <summary>
         /// Pads a sequence with default values if it is narrower (shorter 
@@ -77,7 +77,7 @@ namespace MoreLinq
 
         public static IEnumerable<TSource> Pad<TSource>(this IEnumerable<TSource> source, int width, TSource padding)
         {
-            source.ThrowIfNull("source");
+            if (source == null) throw new ArgumentNullException("source");
             if (width < 0) throw new ArgumentException(null, "width");
             return PadImpl(source, width, padding, null);
         }
@@ -108,8 +108,8 @@ namespace MoreLinq
 
         public static IEnumerable<TSource> Pad<TSource>(this IEnumerable<TSource> source, int width, Func<int, TSource> paddingSelector)
         {
-            source.ThrowIfNull("source");
-            source.ThrowIfNull("paddingSelector");
+            if (source == null) throw new ArgumentNullException("source");
+            if (source == null) throw new ArgumentNullException("paddingSelector");
             if (width < 0) throw new ArgumentException(null, "width");
             return PadImpl(source, width, default(TSource), paddingSelector);
         }

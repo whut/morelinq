@@ -1,6 +1,6 @@
 #region License and Terms
 // MoreLINQ - Extensions to LINQ to Objects
-// Copyright (c) 2008-2011 Jonathan Skeet. All rights reserved.
+// Copyright (c) 2008 Jonathan Skeet. All rights reserved.
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,12 +15,17 @@
 // limitations under the License.
 #endregion
 
-using System;
-using System.Collections.Generic;
+
+#if NO_HASHSET
+using System.Linq;
+#endif
 
 namespace MoreLinq
 {
-    public static partial class MoreEnumerable
+    using System;
+    using System.Collections.Generic;
+
+    static partial class MoreEnumerable
     {
         /// <summary>
         /// Returns all distinct elements of the given source, where "distinctness"
@@ -65,8 +70,8 @@ namespace MoreLinq
         public static IEnumerable<TSource> DistinctBy<TSource, TKey>(this IEnumerable<TSource> source,
             Func<TSource, TKey> keySelector, IEqualityComparer<TKey> comparer)
         {
-            source.ThrowIfNull("source");
-            keySelector.ThrowIfNull("keySelector");
+            if (source == null) throw new ArgumentNullException("source");
+            if (keySelector == null) throw new ArgumentNullException("keySelector");
             return DistinctByImpl(source, keySelector, comparer);
         }
 
@@ -74,8 +79,8 @@ namespace MoreLinq
             Func<TSource, TKey> keySelector, IEqualityComparer<TKey> comparer)
         {
 #if !NO_HASHSET
-            HashSet<TKey> knownKeys = new HashSet<TKey>(comparer);
-            foreach (TSource element in source)
+            var knownKeys = new HashSet<TKey>(comparer);
+            foreach (var element in source)
             {
                 if (knownKeys.Add(keySelector(element)))
                 {

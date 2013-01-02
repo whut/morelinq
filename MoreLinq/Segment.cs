@@ -17,8 +17,8 @@ namespace MoreLinq
         /// </exception>
         public static IEnumerable<IEnumerable<T>> Segment<T>(this IEnumerable<T> sequence, Func<T, bool> newSegmentPredicate)
         {
-            newSegmentPredicate.ThrowIfNull("newSegmentPredicate");
-            
+            if (newSegmentPredicate == null) throw new ArgumentNullException("newSegmentPredicate");
+
             return Segment(sequence, (curr, prev, index) => newSegmentPredicate(curr));
         }
 
@@ -34,7 +34,7 @@ namespace MoreLinq
         /// </exception>
         public static IEnumerable<IEnumerable<T>> Segment<T>(this IEnumerable<T> source, Func<T, int, bool> newSegmentPredicate)
         {
-            newSegmentPredicate.ThrowIfNull("newSegmentPredicate");
+            if (newSegmentPredicate == null) throw new ArgumentNullException("newSegmentPredicate");
 
             return Segment(source, (curr, prev, index) => newSegmentPredicate(curr, index));
         }
@@ -51,8 +51,8 @@ namespace MoreLinq
         /// </exception>
         public static IEnumerable<IEnumerable<T>> Segment<T>(this IEnumerable<T> sequence, Func<T, T, int, bool> newSegmentPredicate)
         {
-            sequence.ThrowIfNull("source");
-            newSegmentPredicate.ThrowIfNull("newSegmentPredicate");
+            if (sequence == null) throw new ArgumentNullException("source");
+            if (newSegmentPredicate == null) throw new ArgumentNullException("newSegmentPredicate");
 
             return SegmentImpl(sequence, newSegmentPredicate);
         }

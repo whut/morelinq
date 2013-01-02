@@ -28,10 +28,10 @@ namespace MoreLinq
         /// <returns>A random sequence of elements in random order from the original sequence</returns>
         public static IEnumerable<T> RandomSubset<T>(this IEnumerable<T> sequence, int subsetSize, Random rand)
         {
-            rand.ThrowIfNull("rand");
-            sequence.ThrowIfNull("sequence");
-            subsetSize.ThrowIfNegative("subsetSize");
-            
+            if (rand == null) throw new ArgumentNullException("rand");
+            if (sequence == null) throw new ArgumentNullException("sequence");
+            if (subsetSize < 0) throw new ArgumentOutOfRangeException("subsetSize");
+
             return RandomSubsetImpl(sequence, subsetSize, rand);
         }
 

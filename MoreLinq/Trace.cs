@@ -1,6 +1,6 @@
 #region License and Terms
 // MoreLINQ - Extensions to LINQ to Objects
-// Copyright (c) 2008-2011 Jonathan Skeet. All rights reserved.
+// Copyright (c) 2008 Jonathan Skeet. All rights reserved.
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,13 +15,13 @@
 // limitations under the License.
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-
 namespace MoreLinq
 {
-    public static partial class MoreEnumerable
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics;
+
+    static partial class MoreEnumerable
     {
         /// <summary>
         /// Traces the elements of a source sequence for diagnostics.
@@ -61,7 +61,7 @@ namespace MoreLinq
 
         public static IEnumerable<TSource> Trace<TSource>(this IEnumerable<TSource> source, string format)
         {
-            source.ThrowIfNull("source");
+            if (source == null) throw new ArgumentNullException("source");
 
             return TraceImpl(source, 
                 string.IsNullOrEmpty(format)
@@ -86,8 +86,8 @@ namespace MoreLinq
 
         public static IEnumerable<TSource> Trace<TSource>(this IEnumerable<TSource> source, Func<TSource, string> formatter)
         {
-            source.ThrowIfNull("source");
-            formatter.ThrowIfNull("formatter");
+            if (source == null) throw new ArgumentNullException("source");
+            if (formatter == null) throw new ArgumentNullException("formatter");
             return TraceImpl(source, formatter);
         }
 

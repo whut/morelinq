@@ -1,6 +1,6 @@
 #region License and Terms
 // MoreLINQ - Extensions to LINQ to Objects
-// Copyright (c) 2008-2011 Jonathan Skeet. All rights reserved.
+// Copyright (c) 2008 Jonathan Skeet. All rights reserved.
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -20,6 +20,15 @@ using System.Collections.Generic;
 
 namespace MoreLinq.Test
 {
+    internal static class SequenceReader
+    {
+        public static SequenceReader<T> Read<T>(this IEnumerable<T> source)
+        {
+            if (source == null) throw new ArgumentNullException("source");
+            return new SequenceReader<T>(source);
+        }
+    }
+
     /// <summary>
     /// Adds reader semantics to a sequence where <see cref="IEnumerator{T}.MoveNext"/>
     /// and <see cref="IEnumerator{T}.Current"/> are rolled into a single

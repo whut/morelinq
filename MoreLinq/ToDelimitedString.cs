@@ -1,6 +1,6 @@
 #region License and Terms
 // MoreLINQ - Extensions to LINQ to Objects
-// Copyright (c) 2008-2011 Jonathan Skeet. All rights reserved.
+// Copyright (c) 2008 Jonathan Skeet. All rights reserved.
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,14 +15,16 @@
 // limitations under the License.
 #endregion
 
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Globalization;
-using System.Text;
-
 namespace MoreLinq
 {
-    public static partial class MoreEnumerable
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics;
+    using System.Globalization;
+    using System.Linq;
+    using System.Text;
+
+    static partial class MoreEnumerable
     {
         /// <summary>
         /// Creates a delimited string from a sequence of values. The 
@@ -55,22 +57,23 @@ namespace MoreLinq
 
         public static string ToDelimitedString<TSource>(this IEnumerable<TSource> source, string delimiter)
         {
-            source.ThrowIfNull("source");
-            return ToDelimitedStringImpl(source, delimiter ?? CultureInfo.CurrentCulture.TextInfo.ListSeparator);
+            if (source == null) throw new ArgumentNullException("source");
+            return ToDelimitedStringImpl(source, delimiter, (sb, e) => sb.Append(e));
         }
 
-        private static string ToDelimitedStringImpl<TSource>(IEnumerable<TSource> source, string delimiter)
+        static string ToDelimitedStringImpl<T>(IEnumerable<T> source, string delimiter, Func<StringBuilder, T, StringBuilder> append)
         {
             Debug.Assert(source != null);
-            Debug.Assert(delimiter != null);
+            Debug.Assert(append != null);
 
+            delimiter = delimiter ?? CultureInfo.CurrentCulture.TextInfo.ListSeparator;
             var sb = new StringBuilder();
             var i = 0;
 
             foreach (var value in source)
             {
                 if (i++ > 0) sb.Append(delimiter);
-                sb.Append(value);
+                append(sb, value);
             }
 
             return sb.ToString();

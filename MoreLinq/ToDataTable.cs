@@ -1,6 +1,6 @@
 #region License and Terms
 // MoreLINQ - Extensions to LINQ to Objects
-// Copyright (c) 2008-2011 Jonathan Skeet. All rights reserved.
+// Copyright (c) 2008 Jonathan Skeet. All rights reserved.
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,20 +15,20 @@
 // limitations under the License.
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Reflection;
-
 namespace MoreLinq
 {
-    public static partial class MoreEnumerable
+    using System;
+    using System.Collections.Generic;
+    using System.Data;
+    using System.Linq;
+    using System.Linq.Expressions;
+    using System.Reflection;
+
+    static partial class MoreEnumerable
     {
         private static MemberInfo GetAccessedMember(LambdaExpression lambda)
         {
-            Expression body = lambda.Body;
+            var body = lambda.Body;
 
             // If it's a field access, boxing was used, we need the field
             if ((body.NodeType == ExpressionType.Convert) || (body.NodeType == ExpressionType.ConvertChecked))
@@ -37,7 +37,7 @@ namespace MoreLinq
             }
 
             // Check if the MemberExpression is valid and is a "first level" member access e.g. not a.b.c 
-            MemberExpression memberExpression = body as MemberExpression;
+            var memberExpression = body as MemberExpression;
             if ((memberExpression == null) || (memberExpression.Expression.NodeType != ExpressionType.Parameter))
             {
                 throw new ArgumentException(string.Format("Illegal expression: {0}", lambda), "lambda");

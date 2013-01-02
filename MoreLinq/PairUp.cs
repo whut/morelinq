@@ -51,9 +51,9 @@ namespace MoreLinq
         /// </exception>
         public static IEnumerable<TResult> PairUp<TSource, TResult>(this IEnumerable<TSource> sequence, Func<TSource, TSource, TResult> resultSelector, PairUpImbalanceStrategy imbalanceStrategy)
         {
-            sequence.ThrowIfNull("sequence");
-            resultSelector.ThrowIfNull("resultSelector");
-            
+            if (sequence == null) throw new ArgumentNullException("sequence");
+            if (resultSelector == null) throw new ArgumentNullException("resultSelector");
+
             return PairUpImpl(sequence, resultSelector, imbalanceStrategy);
         }
 

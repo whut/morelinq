@@ -20,7 +20,7 @@ namespace MoreLinq
         /// <returns>A sequence of Action representing the expansion of a set of nested loops</returns>
         public static IEnumerable<Action> NestedLoops(this Action action, IEnumerable<int> loopCounts)
         {
-            loopCounts.ThrowIfNull("loopCounts");
+            if (loopCounts == null) throw new ArgumentNullException("loopCounts");
 
             using (var iter = loopCounts.GetEnumerator())
             {

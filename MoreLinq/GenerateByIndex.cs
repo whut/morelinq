@@ -1,6 +1,6 @@
 #region License and Terms
 // MoreLINQ - Extensions to LINQ to Objects
-// Copyright (c) 2008-2011 Jonathan Skeet. All rights reserved.
+// Copyright (c) 2008 Jonathan Skeet. All rights reserved.
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,12 +15,12 @@
 // limitations under the License.
 #endregion
 
-using System;
-using System.Collections.Generic;
-
 namespace MoreLinq
 {
-    public static partial class MoreEnumerable
+    using System;
+    using System.Collections.Generic;
+
+    static partial class MoreEnumerable
     {
         /// <summary>
         /// Returns a sequence of values based on indexes.
@@ -38,7 +38,7 @@ namespace MoreLinq
         {
             // Would just use Enumerable.Range(0, int.MaxValue).Select(generator) but that doesn't
             // include int.MaxValue. Picky, I know...
-            generator.ThrowIfNull("generator");
+            if (generator == null) throw new ArgumentNullException("generator");
             return GenerateByIndexImpl(generator);
         }
 
@@ -46,7 +46,7 @@ namespace MoreLinq
         {
             // Looping over 0...int.MaxValue inclusive is a pain. Simplest is to go exclusive,
             // then go again for int.MaxValue.
-            for (int i = 0; i < int.MaxValue; i++)
+            for (var i = 0; i < int.MaxValue; i++)
             {
                 yield return generator(i);
             }

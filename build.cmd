@@ -1,12 +1,32 @@
 @echo off
 setlocal
 pushd "%~dp0"
-set MSBUILD35EXE=%SystemRoot%\Microsoft.NET\Framework\v3.5\MSBuild.exe
-if not exist "%MSBUILD35EXE%" (
-    echo The .NET Framework 3.5 does not appear to be installed on this 
+call :main %*
+popd
+goto :EOF
+
+:main
+set MSBUILDEXE=%SystemRoot%\Microsoft.NET\Framework\v4.0.30319\MSBuild.exe
+if not exist "%MSBUILDEXE%" (
+    echo The .NET Framework 4.0 does not appear to be installed on this 
     echo machine, which is required to build the solution.
     exit /b 1
 )
-for %%i in (debug release) do "%MSBUILD35EXE%" "MoreLinq VS2008.sln" /p:Configuration=%%i    
-if "%1"=="all" for %%i in (debug release) do "%MSBUILD35EXE%" MoreLinq.Silverlight.sln /p:Configuration=%%i
-popd
+if "%1"=="all"  call :sl   %2 %3 %4 %5 %6 %7 %8 %9 & goto :EOF
+if "%1"=="docs" call :docs %2 %3 %4 %5 %6 %7 %8 %9 & goto :EOF
+call :base %*
+goto :EOF
+
+:base
+for %%i in (debug release) do "%MSBUILDEXE%" "MoreLinq.sln" /v:m /p:Configuration=%%i %*
+goto :EOF
+
+:sl
+call :base %*
+for %%i in (debug release) do "%MSBUILDEXE%" MoreLinq.Silverlight.sln /v:m /p:Configuration=%%i %*
+goto :EOF
+
+:docs
+call :base %*
+"%MSBUILDEXE%" MoreLinq.shfbproj %*
+goto :EOF

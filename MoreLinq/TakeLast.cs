@@ -1,6 +1,6 @@
 #region License and Terms
 // MoreLINQ - Extensions to LINQ to Objects
-// Copyright (c) 2008-2011 Jonathan Skeet. All rights reserved.
+// Copyright (c) 2008 Jonathan Skeet. All rights reserved.
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,19 +15,20 @@
 // limitations under the License.
 #endregion
 
-using System.Collections.Generic;
-using System.Diagnostics;
-
 namespace MoreLinq
 {
-    public static partial class MoreEnumerable
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics;
+
+    static partial class MoreEnumerable
     {
         /// <summary>
         /// Returns a specified number of contiguous elements from the end of 
         /// a sequence.
         /// </summary>
         /// <typeparam name="TSource">The type of the elements of <paramref name="source"/>.</typeparam>
-        /// <param name="source">The sequence to pad.</param>
+        /// <param name="source">The sequence to return the last element of.</param>
         /// <param name="count">The number of elements to return.</param>
         /// <returns>
         /// An <see cref="IEnumerable{T}"/> that contains the specified number of 
@@ -47,7 +48,7 @@ namespace MoreLinq
 
         public static IEnumerable<TSource> TakeLast<TSource>(this IEnumerable<TSource> source, int count)
         {
-            source.ThrowIfNull("source");
+            if (source == null) throw new ArgumentNullException("source");
             return TakeLastImpl(source, count);
         }
 

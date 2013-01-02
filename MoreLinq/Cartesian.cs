@@ -19,9 +19,9 @@ namespace MoreLinq
         /// <returns>A sequence representing the Cartesian product of the two source sequences</returns>
         public static IEnumerable<TResult> Cartesian<TFirst, TSecond, TResult>(this IEnumerable<TFirst> first, IEnumerable<TSecond> second, Func<TFirst, TSecond, TResult> resultSelector)
         {
-            first.ThrowIfNull("first");
-            second.ThrowIfNull("second");
-            resultSelector.ThrowIfNull("resultSelector");
+            if (first == null) throw new ArgumentNullException("first");
+            if (second == null) throw new ArgumentNullException("second");
+            if (resultSelector == null) throw new ArgumentNullException("resultSelector");
 
             return from item1 in first 
                    from item2 in second // TODO buffer to avoid multiple enumerations
